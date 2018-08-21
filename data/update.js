@@ -19,8 +19,23 @@ var client = new documentClient(config.endpoint, { "masterKey": config.primaryKe
 var databaseUrl = `dbs/${config.database.id}`;
 var collectionUrl = `${databaseUrl}/colls/${config.collection.id}`;
 
+function rtrnAryFromValueStr(val) {
+    // teams mobile seperates values with ;
+    // teams desktop client seperates values with , 
+    // need to check for both cases and return array accordingly.
+    returnAry = [];
+    if (val && val!="") {
+        if (val.indexOf(';')>0) returnAry = val.split(';'); // generated from teams mobile client
+        else if (val.indexOf(',')>0) returnAry = val.split(','); //Generated from teams desktop client
+        else returnAry.push(val)
+    }
+    return returnAry
+}
+
 function processSubmitAction(session, value) {
     var responseMessage="Thanks, " + session.userData.doc.name + " your answers have been saved.";
+    
+
     switch (value.type) {
         case 'updateCountry':
             session.userData.doc.country = value.country;
@@ -35,19 +50,19 @@ function processSubmitAction(session, value) {
             replaceDocument(session);
             break;
         case 'updateLanguages':
-            session.userData.doc.languages = value.languages.split(',');
+            session.userData.doc.languages = rtrnAryFromValueStr(value.languages);
             replaceDocument(session);
             break;
         case 'updateDomains':
-            session.userData.doc.techdomains = value.techdomains.split(',');
+            session.userData.doc.techdomains = rtrnAryFromValueStr(value.techdomains);
             replaceDocument(session);
             break;
         case 'updateCoachOH':
-            session.userData.doc.coachOH = value.coachOH.split(',');
+            session.userData.doc.coachOH = rtrnAryFromValueStr(value.coachOH);
             replaceDocument(session);
             break;
         case 'updateAttendOH':
-            session.userData.doc.attendOH = value.attendOH.split(',');
+            session.userData.doc.attendOH = rtrnAryFromValueStr(value.attendOH);
             replaceDocument(session);
             break;
         case 'updateExperiences':
@@ -60,16 +75,16 @@ function processSubmitAction(session, value) {
             session.userData.doc.area = value.area;
             session.userData.doc.role = value.role;
             if (value.languages && value.languages!="") {
-                session.userData.doc.languages = value.languages.split(',');
+                session.userData.doc.languages = rtrnAryFromValueStr(value.languages);
             }
             if (value.techdomains && value.techdomains!="") {
-                session.userData.doc.techdomains = value.techdomains.split(',');
+                session.userData.doc.techdomains = rtrnAryFromValueStr(value.techdomains);
             }
             if (value.coachOH && value.coachOH!="") {
-                session.userData.doc.coachOH = value.coachOH.split(',');
+                session.userData.doc.coachOH = rtrnAryFromValueStr(value.coachOH);
             }
             if (value.attendOH && value.attendOH!="") {
-                session.userData.doc.attendOH = value.attendOH.split(',');
+                session.userData.doc.attendOH = rtrnAryFromValueStr(value.attendOH);
             }
             //setTechSkills(session, value);
 
@@ -113,7 +128,7 @@ function processSubmitAction(session, value) {
 
 function setTechSkills(session, value) {
     if (value.techexperience && value.techexperience!="") {
-        var expAry = value.techexperience.split(",");
+        var expAry = rtrnAryFromValueStr(value.techexperience);
         session.userData.doc.L3 = [];
         var i;
         for (i = 0; i < expAry.length; i++) { 
