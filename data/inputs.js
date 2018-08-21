@@ -499,7 +499,7 @@ techskills: [
 openhacks: [
 {"title": "Business Apps - Multi-Workload Teams App","value": "Teams"},
 {"title": "Developer Application Platform - Serverless Enterprise Integration","value": "Functions"},
-{"title": "Application Platform Services - Lift and Shift, Modern Microservices Architecture","value": "Containers"},
+{"title": "Application Platform Services - Lift and Shift, Modern Microservices Architecture (Containers)","value": "Containers"},
 {"title": "DevOps - Zero Downtime Deployment","value": "DevOps"},
 {"title": "Machine Learning  - Computer Vision","value": "MLCV"},
 {"title": "IoT and Intelligent Edge - Asset Management","value": "IoTData"}

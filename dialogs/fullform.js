@@ -16,6 +16,8 @@ module.exports = [
         formData.push(ds.getLanguageCard(session));
         formData.push(ds.getRoleCard(session));
         formData.push(ds.getDomainCard(session));
+        formData.push(ds.getOpenHackCoachCard(session));
+        formData.push(ds.getOpenHackAttendeeCard(session));
         //formData.push(ds.getExperienceCard(session));
         // call experience after setting main form data - the form is too long for teams to display if experience is included.
         var msg = ds.getCardMsg(session, formData, updateType, includeGreeting);
