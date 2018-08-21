@@ -518,7 +518,7 @@ function getCardMsg(session, formData, updateType, includeGreeting) {
             "actions": [
                 {
                     "type": "Action.Submit",
-                    "title": "Update",
+                    "title": "Submit",
                     'data': {
                         'type': updateType
                     }

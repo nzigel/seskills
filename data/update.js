@@ -59,8 +59,18 @@ function processSubmitAction(session, value) {
             session.userData.doc.country = value.country;
             session.userData.doc.area = value.area;
             session.userData.doc.role = value.role;
-            session.userData.doc.languages = value.languages.split(',');
-            session.userData.doc.techdomains = value.techdomains.split(',');
+            if (value.languages && value.languages!="") {
+                session.userData.doc.languages = value.languages.split(',');
+            }
+            if (value.techdomains && value.techdomains!="") {
+                session.userData.doc.techdomains = value.techdomains.split(',');
+            }
+            if (value.coachOH && value.coachOH!="") {
+                session.userData.doc.coachOH = value.coachOH.split(',');
+            }
+            if (value.attendOH && value.attendOH!="") {
+                session.userData.doc.attendOH = value.attendOH.split(',');
+            }
             //setTechSkills(session, value);
 
             client.queryDocuments(collectionUrl, 'SELECT * FROM c where c.alias = "'+session.userData.doc.alias+'"').toArray((err, results) => {
