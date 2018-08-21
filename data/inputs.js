@@ -624,7 +624,7 @@ function getOpenHackCoachCard(session) {
     return {
         "title": "Please select the Open Hacks you are trained to coach:",
         "listId": "coachOH",
-        "style": "compact",
+        "style": "expanded",
         "isMultiSelect": true,
         "choices": session.userData.openhacks,
         "value": (session.userData.doc.coachOH)?session.userData.doc.coachOH.toString():""
@@ -635,7 +635,7 @@ function getOpenHackAttendeeCard(session) {
     return {
         "title": "Please select the Open Hacks that you have attended (not as a coach):",
         "listId": "attendOH",
-        "style": "compact",
+        "style": "expanded",
         "isMultiSelect": true,
         "choices": session.userData.openhacks,
         "value": (session.userData.doc.attendOH)?session.userData.doc.attendOH.toString():""
