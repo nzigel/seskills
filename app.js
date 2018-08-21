@@ -53,13 +53,6 @@ bot.set('storage', tableStorage);
 bot.dialog('/', [
     function (session) {
 
-        session.userData.countries = ds.getCountries();
-        session.userData.languages = ds.getLanguages();
-        session.userData.techskills = ds.getSkills();
-        session.userData.techdomains = ds.getDomains();
-        session.userData.area = ds.getArea();
-        session.userData.role = ds.getRole();
-
         var isChannelConversation = session.message.address.conversation.isGroup;
         if (isChannelConversation) {
             builder.Prompts.text("Hi "+session.message.address.user.name+" please talk to me in a private chat");
@@ -102,6 +95,15 @@ bot.dialog('/', [
 
 bot.dialog('updateinfo',[
     function (session, args, next) {
+
+        session.userData.countries = ds.getCountries();
+        session.userData.languages = ds.getLanguages();
+        session.userData.techskills = ds.getSkills();
+        session.userData.techdomains = ds.getDomains();
+        session.userData.area = ds.getArea();
+        session.userData.role = ds.getRole();
+        session.userData.openhacks = ds.getOpenHacks();
+
         doc = session.userData.doc;
         if(doc.name){
             if (doc.id) {
@@ -112,11 +114,13 @@ bot.dialog('updateinfo',[
                 }
                 else {
                     var dl = {
-                        Role: 'Role ('+doc.role+')',
-                        Country: 'Country ('+doc.country+')',
-                        Languages: 'Languages ('+doc.languages+')',
-                        Area: 'Area ('+doc.area+')',
-                        TechDomains: 'Technology Domains ('+doc.techdomains+')',
+                        Role: 'Role'+((doc.role && doc.role!='')?' ('+doc.role+')':''),
+                        Country: 'Country'+((doc.country && doc.country!='')?' ('+doc.country+')':''),
+                        Languages: 'Languages'+((doc.languages && doc.languages.length>0)?' ('+doc.languages+')':''),
+                        Area: 'Area'+((doc.area && doc.area!='')?' ('+doc.area+')':''),
+                        TechDomains: 'Technology Domains'+((doc.techdomains && doc.techdomains.length>0)?' ('+doc.techdomains+')':''),
+                        CoachOpenHacks: 'Coached Open Hacks'+((doc.coachOH && doc.coachOH.length>0)?' ('+doc.coachOH+')':''),
+                        AttendOpenHacks: 'Attended Open Hacks'+((doc.attendOH && doc.attendOH.length>0)?' ('+doc.attendOH+')':''),
                         Experience: 'Technology Experience'
                     };
 
@@ -126,9 +130,9 @@ bot.dialog('updateinfo',[
                     builder.Prompts.choice(
                         session,
                         'Hi '+doc.name+' what information would you like to update now?',
-                        [dl.Role, dl.Country, dl.Languages, dl.Area, dl.TechDomains, dl.Experience],
+                        [dl.Role, dl.Country, dl.Languages, dl.Area, dl.TechDomains, dl.CoachOpenHacks, dl.AttendOpenHacks, dl.Experience],
                         {
-                            maxRetries: 3,
+                            maxRetries: 2,
                             retryPrompt: 'Not a valid option'
                         }
                     );
@@ -169,6 +173,10 @@ bot.dialog('updateinfo',[
                 return session.beginDialog('area');
             case DialogLabels.TechDomains:
                 return session.beginDialog('domain');
+            case DialogLabels.CoachOpenHacks:
+                return session.beginDialog('coachOH');
+            case DialogLabels.AttendOpenHacks:
+                return session.beginDialog('attendOH');
         }
     }]
 );
@@ -179,7 +187,8 @@ bot.dialog('role', require('./dialogs/role'));
 bot.dialog('domain', require('./dialogs/domain'));
 bot.dialog('area', require('./dialogs/area'));
 bot.dialog('fullform', require('./dialogs/fullform'));
-
+bot.dialog('coachOH', require('./dialogs/coachOH'));
+bot.dialog('attendOH', require('./dialogs/attendOH'));
 
 // log any bot errors into the console
 bot.on('error', function (e) {
@@ -207,7 +216,9 @@ function checkUserDoc(session,alias,name) {
                         "area": "",
                         "languages": [],
                         "techdomains": [],
-                        "L3": []
+                        "L3": [],
+                        "coachOH": [],
+                        "attendOH": []
                     };
                     session.userData.doc = doc;
                     good(doc);

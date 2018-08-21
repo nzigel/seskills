@@ -495,6 +495,14 @@ techskills: [
 {"title": "Client Apps: Cross Platform Hybrid Solutions","value": "93"},
 {"title": "Client Apps: Xamarin","value": "94"},
 {"title": "Client Apps: Centennial","value": "95"}
+],
+openhacks: [
+{"title": "Business Apps - Multi-Workload Teams App","value": "Teams"},
+{"title": "Developer Application Platform - Serverless Enterprise Integration","value": "Functions"},
+{"title": "Application Platform Services - Lift and Shift, Modern Microservices Architecture","value": "Containers"},
+{"title": "DevOps - Zero Downtime Deployment","value": "DevOps"},
+{"title": "Machine Learning  - Computer Vision","value": "MLCV"},
+{"title": "IoT and Intelligent Edge - Asset Management","value": "IoTData"}
 ]
 };
 
@@ -597,6 +605,10 @@ function getArea() {
     return listData.area;
 }
 
+function getOpenHacks() {
+    return listData.openhacks;
+}
+
 function getCountryCard(session) {
     return {
         "title": "Please select the country that you live in:",
@@ -605,6 +617,28 @@ function getCountryCard(session) {
         "isMultiSelect": false,
         "choices": session.userData.countries,
         "value": session.userData.doc.country
+    }
+}
+
+function getOpenHackCoachCard(session) {
+    return {
+        "title": "Please select the Open Hacks you are trained to coach:",
+        "listId": "coachOH",
+        "style": "compact",
+        "isMultiSelect": true,
+        "choices": session.userData.openhacks,
+        "value": (session.userData.doc.coachOH)?session.userData.doc.coachOH.toString():""
+    }
+}
+
+function getOpenHackAttendeeCard(session) {
+    return {
+        "title": "Please select the Open Hacks that you have attended (not as a coach):",
+        "listId": "attendOH",
+        "style": "compact",
+        "isMultiSelect": true,
+        "choices": session.userData.openhacks,
+        "value": (session.userData.doc.attendOH)?session.userData.doc.attendOH.toString():""
     }
 }
 
@@ -637,7 +671,7 @@ function getLanguageCard(session) {
         "style": "compact",
         "isMultiSelect": true,
         "choices": session.userData.languages,
-        "value": session.userData.doc.languages.toString()
+        "value": (session.userData.doc.languages)?session.userData.doc.languages.toString():""
     }
 }
 
@@ -648,13 +682,13 @@ function getDomainCard(session) {
         "style": "compact",
         "isMultiSelect": true,
         "choices": session.userData.techdomains,
-        "value": session.userData.doc.techdomains.toString()
+        "value": (session.userData.doc.techdomains)?session.userData.doc.techdomains.toString():""
     }
 }
 
 function getExperienceCard(session) {
     return {
-        "title": "Please mark the technologies that you have hands-on customer experienced working with either at Microsoft or before:",
+        "title": "Please mark the technologies where you have hands-on customer experience:",
         "listId": "techexperience",
         "style": "expanded",
         "isMultiSelect": true,
@@ -686,6 +720,9 @@ module.exports = {
     getRole: function () {
         return getRole();
     },
+    getOpenHacks: function () {
+        return getOpenHacks();
+    },
     getAreaCard: function(session) {
         return getAreaCard(session);
     },
@@ -703,6 +740,12 @@ module.exports = {
     },
     getExperienceCard: function(session) {
         return getExperienceCard(session);
+    },
+    getOpenHackAttendeeCard: function(session) {
+        return getOpenHackAttendeeCard(session);
+    },
+    getOpenHackCoachCard: function(session) {
+        return getOpenHackCoachCard(session);
     },
     getCardMsg: function (session, formData, updateType, includeGreeting) {
         return getCardMsg(session, formData, updateType, includeGreeting);

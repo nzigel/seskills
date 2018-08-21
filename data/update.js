@@ -42,6 +42,14 @@ function processSubmitAction(session, value) {
             session.userData.doc.techdomains = value.techdomains.split(',');
             replaceDocument(session);
             break;
+        case 'updateCoachOH':
+            session.userData.doc.coachOH = value.coachOH.split(',');
+            replaceDocument(session);
+            break;
+        case 'updateAttendOH':
+            session.userData.doc.attendOH = value.attendOH.split(',');
+            replaceDocument(session);
+            break;
         case 'updateExperiences':
             //session.userData.doc.L3 = value.techexperience.replace(/, /g, "& ").replace(/,/g, ";").replace(/& /g, ", ").split(";");
             setTechSkills(session, value);
